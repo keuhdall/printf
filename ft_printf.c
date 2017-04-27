@@ -6,45 +6,62 @@
 /*   By: lmarques <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/04 15:55:16 by lmarques          #+#    #+#             */
-/*   Updated: 2017/04/27 03:48:06 by lmarques         ###   ########.fr       */
+/*   Updated: 2017/04/27 19:38:28 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdio.h>
 
-int		ft_is_handled_option(char c)
+void	ft_parse_modifiers(char *format, t_flag *flag)
 {
-	if (c == '%' || c == 'd' || c == 's' || c == 'c')
-		return (1);
-	else
-		return (0);
+	if (*format == 'z')
+		flag->modifiers.z = 1;
+	else if (*format == 'j')
+		flag->modifiers.z = 1;
+	else if (*format == '#')
+		flag->modifiers.sharp = 1;
+	else if (*format == '0')
+		flag->modifiers.zero = 1;
+	else if (*format == '-')
+		flag->modifiers.minus = 1;
+	else if (*format == '+')
+		flag->modifiers.plus = 1;
+	else if (*format == 'h')
+	{
+		flag->modifiers.h = 1;
+		if (++*format && *format == 'h')
+			flag->modifiers.h = 2;
+	}
+	else if (*format == 'l')
+	{
+		flag->modifiers.l = 1;
+		if (++*format && *format == 'l')
+			flag->modifiers.l = 2;
+	}
 }
 
-int		ft_count_flags(const char *format)
+void	ft_fill_flags(char *format, t_flag_lst *lst)
 {
-	int	count;
-	int	count_flags;
+	int		count;
+	t_flag	flag;
 
 	count = -1;
-	count_flags = 0;
+	ft_bzero(&flag, sizeof(flag));
 	while (format[++count])
 	{
 		if (format[count] == '%')
 		{
-			if (!format[count + 1] || !ft_is_handled_option(format[count + 1]))
-				exit(-1);
-			else
-				++count_flags;
+			ft_parse_modifiers(format, &flag);
 		}
 	}
-	return (count_flags);
 }
 
 int		ft_printf(const char *format, ...)
 {
-	int		count;
-	va_list	args;
+	int			count;
+	va_list		args;
+	t_flag_lst	*lst;
 
 	count = -1;
 	va_start(args, format);

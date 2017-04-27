@@ -6,11 +6,40 @@
 /*   By: lmarques <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/04 15:55:16 by lmarques          #+#    #+#             */
-/*   Updated: 2017/04/25 17:48:22 by lmarques         ###   ########.fr       */
+/*   Updated: 2017/04/27 03:48:06 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdio.h>
+
+int		ft_is_handled_option(char c)
+{
+	if (c == '%' || c == 'd' || c == 's' || c == 'c')
+		return (1);
+	else
+		return (0);
+}
+
+int		ft_count_flags(const char *format)
+{
+	int	count;
+	int	count_flags;
+
+	count = -1;
+	count_flags = 0;
+	while (format[++count])
+	{
+		if (format[count] == '%')
+		{
+			if (!format[count + 1] || !ft_is_handled_option(format[count + 1]))
+				exit(-1);
+			else
+				++count_flags;
+		}
+	}
+	return (count_flags);
+}
 
 int		ft_printf(const char *format, ...)
 {

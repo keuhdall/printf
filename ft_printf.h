@@ -6,7 +6,7 @@
 /*   By: lmarques <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/04 15:55:28 by lmarques          #+#    #+#             */
-/*   Updated: 2017/04/27 19:15:19 by lmarques         ###   ########.fr       */
+/*   Updated: 2017/05/01 16:58:06 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct			s_flag_lst
 	struct s_flag_lst	*next;
 }						t_flag_lst;
 
-t_flag_lst				ft_new_flag(t_flag flag);
+t_flag_lst				*ft_new_flag(t_flag flag);
 void					ft_push_flag(t_flag_lst **list, t_flag_lst *new);
 
 #endif

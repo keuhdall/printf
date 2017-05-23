@@ -13,6 +13,7 @@
 NAME = printf
 
 SRC = ft_printf.c \
+	  lists.c \
 
 
 OBJ = $(SRC:.c=.o)

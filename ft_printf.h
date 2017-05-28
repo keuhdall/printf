@@ -6,7 +6,7 @@
 /*   By: lmarques <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/04 15:55:28 by lmarques          #+#    #+#             */
-/*   Updated: 2017/05/01 16:58:06 by lmarques         ###   ########.fr       */
+/*   Updated: 2017/05/28 18:07:32 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,15 @@
 # include <stdarg.h>
 # include "./libft/libft.h"
 
-typedef struct			s_modifers
+#define STRUCT_SIZE 7
+
+typedef struct			s_conv
+{
+	char				flag[8];
+	void				(*ft_conv)(const char *);
+}						t_conv;
+
+typedef struct			s_modifier
 {
 	char				h;
 	char				l;
@@ -28,14 +36,12 @@ typedef struct			s_modifers
 	char				zero;
 	char				minus;
 	char				plus;
-	char				space;
-}						t_modifiers;
+}						t_modifier;
 
 typedef struct			s_flag
 {
-	size_t				pos;
-	t_modifiers			modifiers;
-	void				*content;
+	char				rule;
+	t_modifier			modifier;
 }						t_flag;
 
 typedef struct			s_flag_lst
@@ -44,7 +50,10 @@ typedef struct			s_flag_lst
 	struct s_flag_lst	*next;
 }						t_flag_lst;
 
-t_flag_lst				*ft_new_flag(t_flag flag);
-void					ft_push_flag(t_flag_lst **list, t_flag_lst *new);
+typedef struct			s_env
+{
+	t_flag_lst			flag_list;
+	t_conv				conv[STRUCT_SIZE];
+}						t_env;
 
 #endif

@@ -6,84 +6,69 @@
 /*   By: lmarques <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/04 15:55:16 by lmarques          #+#    #+#             */
-/*   Updated: 2017/05/23 19:00:28 by lmarques         ###   ########.fr       */
+/*   Updated: 2017/05/28 18:05:50 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdio.h>
 
-void	ft_parse_modifiers(char *format, t_flag *flag)
+void	conv_1(const char *test)
 {
-	if (*format == 'z')
-		flag->modifiers.z = 1;
-	else if (*format == 'j')
-		flag->modifiers.z = 1;
-	else if (*format == '#')
-		flag->modifiers.sharp = 1;
-	else if (*format == '0')
-		flag->modifiers.zero = 1;
-	else if (*format == '-')
-		flag->modifiers.minus = 1;
-	else if (*format == '+')
-		flag->modifiers.plus = 1;
-	else if (*format == 'h')
+	return ;
+}
+
+void	ft_init_struct(t_env *env)
+{
+	ft_strcpy(env->conv[0].flag, "bdiouxX");
+	ft_strcpy(env->conv[1].flag, "DOU");
+	ft_strcpy(env->conv[2].flag, "Cc");
+	ft_strcpy(env->conv[3].flag, "s");
+	ft_strcpy(env->conv[4].flag, "S");
+	ft_strcpy(env->conv[5].flag, "p");
+	ft_strcpy(env->conv[6].flag, "%");
+	env->conv[0].ft_conv = conv_1;
+	env->conv[1].ft_conv = conv_1;
+	env->conv[2].ft_conv = conv_1;
+	env->conv[3].ft_conv = conv_1;
+	env->conv[4].ft_conv = conv_1;
+	env->conv[5].ft_conv = conv_1;
+}
+
+void	ft_parse_flag(char *s)
+{
+	int	count;
+
+	count = -1;
+	if (!s)
+		return ;
+	while (s[++count])
 	{
-		flag->modifiers.h = 1;
-		if (++format && *format == 'h')
-			flag->modifiers.h = 2;
-	}
-	else if (*format == 'l')
-	{
-		flag->modifiers.l = 1;
-		if (++format && *format == 'l')
-			flag->modifiers.l = 2;
+		ft_parse_modifier(s);
 	}
 }
 
-void	ft_fill_flags(char *format, t_flag_lst **lst)
+void	ft_parse_format(char *s)
 {
-	int		count;
-	t_flag	flag;
+	int	count;
 
 	count = -1;
-	ft_bzero(&flag, sizeof(flag));
-	while (format[++count])
-	{
-		if (format[count] == '%')
-		{
-			ft_parse_modifiers(format + count + 1, &flag);
-			ft_push_flag(lst, ft_new_flag(flag));
-		}
-	}
+	while (s[++count])
+		if (s[count] == '%')
+			ft_parse_flag(s + count + 1);
 }
 
 int		ft_printf(const char *format, ...)
 {
 	int			count;
 	va_list		args;
-	t_flag_lst	*lst;
+	t_env		env;
 
-	lst = NULL;
-	ft_fill_flags((char *)format, &lst);
 	count = -1;
 	va_start(args, format);
 	while (++count < ft_atoi(format))
-		ft_putstr(va_arg(args, char*));
+		ft_putstr(va_arg(args, char *));
 	va_end(args);
-	while (lst)
-	{
-		printf("modifier z = %d\n", lst->flag.modifiers.z);
-		printf("modifier j = %d\n", lst->flag.modifiers.j);
-		printf("modifier # = %d\n", lst->flag.modifiers.sharp);
-		printf("modifier 0 = %d\n", lst->flag.modifiers.zero);
-		printf("modifier - = %d\n", lst->flag.modifiers.minus);
-		printf("modifier + = %d\n", lst->flag.modifiers.plus);
-		printf("modifier h = %d\n", lst->flag.modifiers.h);
-		printf("modifier l = %d\n", lst->flag.modifiers.l);
-		printf("------------------\n");
-		lst = lst->next;
-	}
 	return (0);
 }
 

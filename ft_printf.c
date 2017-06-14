@@ -3,77 +3,141 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmarques <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lmarques <lmarques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/04 15:55:16 by lmarques          #+#    #+#             */
-/*   Updated: 2017/05/28 18:05:50 by lmarques         ###   ########.fr       */
+/*   Created: 2017/01/28 19:18:44 by lmarques          #+#    #+#             */
+/*   Updated: 2017/06/11 19:10:01 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <stdio.h>
+#include <ft_printf.h>
 
-void	conv_1(const char *test)
-{
-	return ;
-}
-
-void	ft_init_struct(t_env *env)
-{
-	ft_strcpy(env->conv[0].flag, "bdiouxX");
-	ft_strcpy(env->conv[1].flag, "DOU");
-	ft_strcpy(env->conv[2].flag, "Cc");
-	ft_strcpy(env->conv[3].flag, "s");
-	ft_strcpy(env->conv[4].flag, "S");
-	ft_strcpy(env->conv[5].flag, "p");
-	ft_strcpy(env->conv[6].flag, "%");
-	env->conv[0].ft_conv = conv_1;
-	env->conv[1].ft_conv = conv_1;
-	env->conv[2].ft_conv = conv_1;
-	env->conv[3].ft_conv = conv_1;
-	env->conv[4].ft_conv = conv_1;
-	env->conv[5].ft_conv = conv_1;
-}
-
-void	ft_parse_flag(char *s)
-{
-	int	count;
-
-	count = -1;
-	if (!s)
-		return ;
-	while (s[++count])
-	{
-		ft_parse_modifier(s);
-	}
-}
-
-void	ft_parse_format(char *s)
-{
-	int	count;
-
-	count = -1;
-	while (s[++count])
-		if (s[count] == '%')
-			ft_parse_flag(s + count + 1);
-}
+/*
+** main function : printf will return the total len of chars displayed by printf
+*/
 
 int		ft_printf(const char *format, ...)
 {
-	int			count;
-	va_list		args;
-	t_env		env;
+	t_printf	p;
 
-	count = -1;
-	va_start(args, format);
-	while (++count < ft_atoi(format))
-		ft_putstr(va_arg(args, char *));
-	va_end(args);
-	return (0);
+	ft_bzero(&p, sizeof(p));
+	p.fd = 1;
+	p.format = (char *)format;
+	va_start(p.lst, format);
+	while (*p.format && p.len > -1)
+	{
+		if (*p.format == '%')
+		{
+			++p.format;
+			if (!*p.format || (*p.format == ' ' && (!p.format[1]
+			|| (!p.format[2] && p.format[1] == 'h'))))
+				break ;
+			else
+				parse_optionals(&p);
+		}
+		else if (++p.i)
+			buffer(&p, &*p.format, 1);
+		++p.format;
+	}
+	(p.len < 0) ? write(p.fd, p.buff, p.buff_index - p.i)
+		: write(p.fd, p.buff, p.buff_index);
+	va_end(p.lst);
+	return (p.len);
 }
 
-int		main(void)
+/*
+** bonus function to specify a specific fd, similar to libc dprintf
+*/
+
+int		ft_dprintf(int fd, const char *format, ...)
 {
-	ft_printf("ceci est %j %ll %h%hh un test%", 0);
-	return (0);
+	t_printf	p;
+
+	ft_bzero(&p, sizeof(p));
+	p.fd = fd;
+	p.format = (char *)format;
+	va_start(p.lst, format);
+	while (*p.format && p.len > -1)
+	{
+		if (*p.format == '%')
+		{
+			++p.format;
+			if (!*p.format || (*p.format == ' ' && (!p.format[1]
+			|| (!p.format[2] && p.format[1] == 'h'))))
+				break ;
+			else
+				parse_optionals(&p);
+		}
+		else if (++p.i)
+			buffer(&p, &*p.format, 1);
+		++p.format;
+	}
+	(p.len < 0) ? write(p.fd, p.buff, p.buff_index - p.i)
+		: write(p.fd, p.buff, p.buff_index);
+	va_end(p.lst);
+	return (p.len);
+}
+
+/*
+** sprintf returns the string
+** Caution : intended for string < 64 (BUFF in define) characters.
+*/
+
+char	*ft_sprintf(const char *format, ...)
+{
+	t_printf	p;
+	char		*ret;
+
+	ft_bzero(&p, sizeof(p));
+	p.fd = 1;
+	p.format = (char *)format;
+	va_start(p.lst, format);
+	while (*p.format && p.len > -1)
+	{
+		if (*p.format == '%')
+			parse_optionals(&p);
+		else if (++p.i)
+			buffer(&p, &*p.format, 1);
+		++p.format;
+	}
+	p.buff[p.buff_index + 1] = '\0';
+	if (!(ret = ft_strdup(p.buff)))
+		return (NULL);
+	va_end(p.lst);
+	return (ret);
+}
+
+/*
+** function that displays pointer address
+*/
+
+void	print_pointer_address(t_printf *p)
+{
+	void	*pointer;
+
+	pointer = va_arg(p->lst, void *);
+	p->f &= ~FL_SHARP;
+	p->min_len -= (p->f & FL_ZERO ? 2 : 0);
+	p->padding = (p->printed > p->min_len - 3) ? 0 :
+		p->min_len - 3 - p->printed;
+	p->f |= FL_SHARP;
+	p->f |= FL_POINTER;
+	p->printed = 0;
+	itoa_base_printf((uintmax_t)pointer, 16, p);
+}
+
+/*
+** function if no conversion specifier was found.
+*/
+
+void	cs_not_found(t_printf *p)
+{
+	if ((p->padding = p->min_len - 1) > 0)
+	{
+		padding(p, 0);
+		buffer(p, p->format, 1);
+		padding(p, 1);
+	}
+	else
+		buffer(p, p->format, 1);
 }

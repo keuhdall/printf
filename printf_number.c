@@ -6,7 +6,7 @@
 /*   By: lmarques <lmarques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/06 06:02:33 by lmarques          #+#    #+#             */
-/*   Updated: 2017/06/11 19:11:14 by lmarques         ###   ########.fr       */
+/*   Updated: 2017/07/28 21:30:04 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	itoa_base_fill(uintmax_t tmp, int b, char s[PF_BUF_SIZE],
 {
 	int		len;
 
-	if (tmp && !(p->f & FL_POINTER) && (p->f & FL_ZERO) && 
+	if (tmp && !(p->f & FL_POINTER) && (p->f & FL_ZERO) &&
 		(p->f & FL_SHARP) && b == 16 && !(p->f & FL_LONG2) &&
 		p->printed > 3)
 		p->printed -= 2;

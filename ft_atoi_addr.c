@@ -6,13 +6,13 @@
 /*   By: lmarques <lmarques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/06 12:45:04 by lmarques          #+#    #+#             */
-/*   Updated: 2017/09/03 05:09:54 by lmarques         ###   ########.fr       */
+/*   Updated: 2017/09/03 06:38:05 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_atoi_parse(char **s)
+int		ft_atoi_addr(char **s)
 {
 	int		sign;
 	int		r;

@@ -6,7 +6,7 @@
 /*   By: lmarques <lmarques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 23:58:17 by lmarques          #+#    #+#             */
-/*   Updated: 2017/09/03 05:17:31 by lmarques         ###   ########.fr       */
+/*   Updated: 2017/09/03 06:29:31 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ size_t		ft_wstrlen(unsigned *s)
 	len = 0;
 	while (*s != L'\0')
 	{
-		len += ft_wcharlen(*s);
+		len += ft_wcharsize(*s);
 		++s;
 	}
 	return (len);

@@ -6,27 +6,20 @@
 /*   By: lmarques <lmarques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 18:37:46 by lmarques          #+#    #+#             */
-/*   Updated: 2017/08/31 20:37:02 by lmarques         ###   ########.fr       */
+/*   Updated: 2017/09/03 22:51:42 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-/*
-** --------------------------- Librairies --------------------------------------
-*/
-
 # include "libft.h"
 # include <stdarg.h>
 # include <errno.h>
+
 # define PF_BUF_SIZE	64
 # define MAX(a, b)		b & ((a - b) >> 31) | a & (~(a - b) >> 31)
 # define MIN(a, b)		a & ((a - b) >> 31) | b & (~(a - b) >> 31)
-
-/*
-** --------------------------- Masks Definition --------------------------------
-*/
 
 # define FL_SHARP		(1 << 0)
 # define FL_SPACE		(1 << 1)
@@ -44,6 +37,14 @@
 # define FL_MIN_LEN		(1 << 13)
 # define FL_APP_ACCU	(1 << 14)
 # define FL_POINTER		(1 << 15)
+
+# define PF_RED			"\033[31m"
+# define PF_GREEN		"\033[32m"
+# define PF_YELLOW		"\033[33m"
+# define PF_BLUE		"\033[34m"
+# define PF_PURPLE		"\033[35m"
+# define PF_CYAN		"\033[36m"
+# define PF_EOC			"\033[36m"
 
 /*
 ** --------------------------- ft_printf variables -----------------------------
@@ -114,17 +115,5 @@ void			pf_puterror(char *s, t_printf *p);
 void			buffer(t_printf *p, void *new, size_t size);
 void			padding(t_printf *p, int n);
 void			print_pointer_address(t_printf *p);
-
-/*
-** --------------------------- colors related defines --------------------------
-*/
-
-# define PF_RED			"\033[31m"
-# define PF_GREEN		"\033[32m"
-# define PF_YELLOW		"\033[33m"
-# define PF_BLUE		"\033[34m"
-# define PF_PURPLE		"\033[35m"
-# define PF_CYAN		"\033[36m"
-# define PF_EOC			"\033[36m"
 
 #endif

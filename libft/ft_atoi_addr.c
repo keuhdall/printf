@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.c                                       :+:      :+:    :+:   */
+/*   ft_atoi_addr.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmarques <lmarques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/14 17:21:47 by lmarques          #+#    #+#             */
-/*   Updated: 2016/09/20 14:39:35 by lmarques         ###   ########.fr       */
+/*   Created: 2017/05/06 12:45:04 by lmarques          #+#    #+#             */
+/*   Updated: 2017/09/03 05:09:54 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_lstsize(t_list *lst)
+int		ft_atoi_parse(char **s)
 {
-	int		count;
-	t_list	*tmp;
+	int		sign;
+	int		r;
 
-	count = 0;
-	tmp = lst;
-	if (!tmp)
-		return (0);
-	while (tmp)
-	{
-		tmp = tmp->next;
-		count++;
-	}
-	return (count);
+	r = 0;
+	sign = 1;
+	if (**s == '-' || **s == '+')
+		sign = 44 - *(*s)++;
+	while (**s >= '0' && **s <= '9')
+		r = r * 10 + *(*s)++ - '0';
+	return (sign * r);
 }

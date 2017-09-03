@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_sqrt.c                                          :+:      :+:    :+:   */
+/*   ft_wcharsize.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmarques <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lmarques <lmarques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/03 17:39:03 by lmarques          #+#    #+#             */
-/*   Updated: 2016/11/03 17:43:47 by lmarques         ###   ########.fr       */
+/*   Created: 2017/01/21 00:03:43 by lmarques          #+#    #+#             */
+/*   Updated: 2017/09/03 05:17:40 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_sqrt(int nb)
-{
-	long int	long_nb;
-	int			count;
+#include "libft.h"
 
-	long_nb = nb;
-	count = 1;
-	while (count * count <= long_nb)
-		count++;
-	count--;
-	if ((count * count) != long_nb)
-		return (0);
-	return (count);
+size_t	ft_wcharsize(unsigned wc)
+{
+	if (wc < 0x80)
+		return (1);
+	else if (wc < 0x800)
+		return (2);
+	else if (wc < 0x10000)
+		return (3);
+	else if (wc < 0xE0080)
+		return (4);
+	return (0);
 }

@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*   ft_wstrlen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmarques <lmarques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/08/06 18:15:48 by lmarques          #+#    #+#             */
-/*   Updated: 2016/11/03 16:29:46 by lmarques         ###   ########.fr       */
+/*   Created: 2017/01/20 23:58:17 by lmarques          #+#    #+#             */
+/*   Updated: 2017/09/03 05:17:31 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memmove(void *dst, const void *src, size_t n)
+size_t		ft_wstrlen(unsigned *s)
 {
-	if (n == 0)
-		return (dst);
-	if (dst <= src)
-		return (ft_memcpy(dst, src, n));
-	n--;
-	while (n > 0)
+	size_t	len;
+
+	len = 0;
+	while (*s != L'\0')
 	{
-		((char *)dst)[n] = ((char *)src)[n];
-		n--;
+		len += ft_wcharlen(*s);
+		++s;
 	}
-	((char *)dst)[n] = ((char *)src)[n];
-	return (dst);
+	return (len);
 }

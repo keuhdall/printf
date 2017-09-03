@@ -6,7 +6,7 @@
 /*   By: lmarques <lmarques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/06 06:02:43 by lmarques          #+#    #+#             */
-/*   Updated: 2017/06/11 19:12:30 by lmarques         ###   ########.fr       */
+/*   Updated: 2017/09/03 05:19:42 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,11 @@ static int	ft_max(int a, int b)
 static void	field_width_precision(t_printf *p)
 {
 	if (48 < *p->format && *p->format < 58)
-		p->min_len = ft_max(ft_atoi_parse(&p->format), 1);
+		p->min_len = ft_max(ft_atoi_addr(&p->format), 1);
 	if (*p->format == '.')
 	{
 		++p->format;
-		p->accu = ft_max(ft_atoi_parse(&p->format), 0);
+		p->accu = ft_max(ft_atoi_addr(&p->format), 0);
 		p->f |= FL_APP_ACCU;
 	}
 	while (1)

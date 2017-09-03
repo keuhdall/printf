@@ -6,7 +6,7 @@
 /*   By: lmarques <lmarques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/06 06:02:49 by lmarques          #+#    #+#             */
-/*   Updated: 2017/06/11 19:11:54 by lmarques         ###   ########.fr       */
+/*   Updated: 2017/09/03 05:21:44 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void		pf_puterror(char *s, t_printf *p)
 void		pf_putwstr(t_printf *p)
 {
 	wchar_t		*s;
-	int			charlen;
+	int			char_size;
 
 	if (!(s = va_arg(p->lst, wchar_t *)))
 		pf_puterror(0, p);
@@ -89,11 +89,11 @@ void		pf_putwstr(t_printf *p)
 		p->f = (p->min_len > p->accu) ?
 			p->f & ~FL_APP_ACCU : p->f | FL_APP_ACCU;
 		padding(p, 0);
-		charlen = 0;
-		while ((p->c = *s++) && (p->printed -= charlen) > 0)
+		char_size = 0;
+		while ((p->c = *s++) && (p->printed -= char_size) > 0)
 		{
-			charlen = ft_wcharlen(p->c);
-			pf_putwchar(p, p->c, p->printed, charlen);
+			char_size = ft_wcharsize(p->c);
+			pf_putwchar(p, p->c, p->printed, char_size);
 		}
 		padding(p, 1);
 	}
@@ -139,7 +139,8 @@ void		pf_putstr(t_printf *p)
 
 void		pf_character(t_printf *p, unsigned c)
 {
-	if ((p->f & FL_LONG || p->f & FL_LONG2) && (!(p->printed = ft_wcharlen(c))))
+	if ((p->f & FL_LONG || p->f & FL_LONG2) &&
+		(!(p->printed = ft_wcharsize(c))))
 		p->len = -1;
 	else
 		p->printed = 1;

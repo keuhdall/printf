@@ -6,14 +6,14 @@
 /*   By: lmarques <lmarques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 18:37:46 by lmarques          #+#    #+#             */
-/*   Updated: 2017/09/03 22:51:42 by lmarques         ###   ########.fr       */
+/*   Updated: 2017/09/04 20:31:38 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-# include "libft.h"
+# include "./libft/libft.h"
 # include <stdarg.h>
 # include <errno.h>
 

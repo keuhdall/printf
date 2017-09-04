@@ -6,50 +6,41 @@
 #    By: lmarques <lmarques@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/12 13:55:55 by lmarques          #+#    #+#              #
-#*   Updated: 2017/09/03 06:32:40 by lmarques         ###   ########.fr       *#
+#*   Updated: 2017/09/04 22:01:49 by lmarques         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
-C = clang
-
 NAME = libftprintf.a
 
-FLAGS = -Wall -Wextra -Werror -O2
+HEADER = ./libft/libft.h
 
-HEADER = /libft/libft.h
-
-LIBFILES = $(SRC:.c=.o)
-
-SRC = ft_atoi_addr.c \
-	  ft_bzero.c \
-	  ft_memchr.c \
-	  ft_memcpy.c \
-	  ft_memset.c \
-	  ft_pow.c \
-	  ft_strlen.c \
-	  ft_strncmp.c \
-	  ft_wcharsize.c \
-	  ft_strchr_index.c \
-	  ft_wstrlen.c \
-	  ft_strdup.c \
-	  printf_bonuses.c \
+SRC = printf_bonuses.c \
 	  printf_number.c \
 	  printf_parsing.c \
 	  printf_string.c \
 	  ft_printf.c
 
+OBJECTS = $(SRC:.c=.o)
+
 all: $(NAME)
 
 $(NAME):
-	@gcc $(FLAGS) -c $(SRC) -I $(HEADER)
-	@ar rc $(NAME) $(LIBFILES)
-	@ranlib $(NAME)
+	make -C libft
+	mv libft/libft.a ./$(NAME)
+	gcc -Wall -Wextra -Werror -O2 -c $(SRC) -I $(HEADER)
+	ar rc $(NAME) $(OBJECTS)
+	ranlib $(NAME)
+
+libft/%.o: %.c
+	gcc -Wall -Wextra -Werror -O2 -I ./libft/libft.h ./ft_printf.h -o $@ -c $<
 
 clean:
-	@rm -f $(LIBFILES)
+	rm -rf $(OBJECTS)
+	make clean -C libft
 
 fclean: clean
-	@rm -f $(NAME)
+	rm -rf $(NAME)
+	make fclean -C libft
 
 re: fclean all
 

@@ -6,7 +6,7 @@
 /*   By: lmarques <lmarques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 18:37:46 by lmarques          #+#    #+#             */
-/*   Updated: 2017/09/04 20:31:38 by lmarques         ###   ########.fr       */
+/*   Updated: 2017/09/08 20:06:33 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <errno.h>
 
 # define PF_BUF_SIZE	64
+# define DEFAULT_ACCU 5
 # define MAX(a, b)		b & ((a - b) >> 31) | a & (~(a - b) >> 31)
 # define MIN(a, b)		a & ((a - b) >> 31) | b & (~(a - b) >> 31)
 

@@ -6,7 +6,7 @@
 /*   By: lmarques <lmarques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/06 06:02:21 by lmarques          #+#    #+#             */
-/*   Updated: 2017/09/03 06:24:43 by lmarques         ###   ########.fr       */
+/*   Updated: 2017/09/08 20:06:11 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void			pf_putdouble(t_printf *p, int base)
 	n = (double)va_arg(p->lst, double);
 	(p->f & FL_ZERO) ? p->accu = p->min_len : 0;
 	if (!(p->f & FL_APP_ACCU))
-		p->accu = 6 + base - 10 + 1;
+		p->accu = DEFAULT_ACCU + base - 10 + 1;
 	len = 1;
 	tmp = (long)(n < 0 ? -n : n);
 	while (tmp && ++len)
